@@ -28,11 +28,9 @@ public class Application {
     @PostConstruct
     public void  init(){
         System.out.println("Initializing data");
-        User user = new User();
-        user.setUsername("jason");
-        user.setPassword(passwordEncoder.encode("password"));
-        user.setEmail("jason@example.com");
-        user.setRole(Role.ADMIN);
-        userRepository.save(user);
+        User jason = User.of(1L, "jason", passwordEncoder.encode("password"), "jason@jason.com", Role.ADMIN);
+        User john = User.of(2L, "john", passwordEncoder.encode("password"), "john@john.com", Role.ADMIN);
+        userRepository.save(jason);
+        userRepository.save(john);
     }
 }

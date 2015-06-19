@@ -28,8 +28,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
         if (!user.isPresent()) throw new UsernameNotFoundException("Could not find such username!");
-        UserDetails userDetails = new CustomUserDetails();
-        BeanUtils.copyProperties(user.get(), userDetails);
-        return userDetails;
+        return new CustomUserDetails(user.get());
     }
 }

@@ -14,6 +14,11 @@ import java.util.List;
  * Created by Jason on 6/15/15.
  */
 public class CustomUserDetails extends User implements UserDetails {
+
+    public CustomUserDetails(User user) {
+        super(user);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authList = new ArrayList<>();
