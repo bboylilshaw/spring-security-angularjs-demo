@@ -2,7 +2,6 @@ package org.jshaw.demo.security;
 
 import org.jshaw.demo.domain.User;
 import org.jshaw.demo.repository.UserRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
