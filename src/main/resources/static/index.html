@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Hello AngularJS</title>
+<html ng-app="hello">
+<head>
+    <title>Stateless Authentication Example</title>
 </head>
-<body>
-<h1>Index Page</h1>
+<body ng-controller="AuthCtrl" ng-init="init()">
+<div ng-hide="authenticated">
+    Login as user/user or admin/admin:<br>
+    <label for="username">Username:</label>
+    <input id="username" type="text" ng-model="username"><br>
+    <label for="password">Password:</label>
+    <input id="password" type="password" ng-model="password"><br>
+    <button ng-click="login()">Login</button>
+</div>
+<div ng-show="authenticated">
+    Logged in as {{username}} <button ng-click="logout()">Logout</button><br><br>
+    Token content: <pre>{{token | json}}</pre>
+</div>
 
+<!--load js after DOM loaded-->
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="js/hello.js"></script>
 </body>
 </html>
