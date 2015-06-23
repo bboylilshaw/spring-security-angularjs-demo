@@ -5,7 +5,7 @@
 </head>
 <body ng-controller="AuthCtrl" ng-init="init()">
 <div ng-hide="authenticated">
-    Login as user/user or admin/admin:<br>
+    Login:<br>
     <label for="username">Username:</label>
     <input id="username" type="text" ng-model="username"><br>
     <label for="password">Password:</label>
@@ -13,8 +13,7 @@
     <button ng-click="login()">Login</button>
 </div>
 <div ng-show="authenticated">
-    Logged in as {{username}} <button ng-click="logout()">Logout</button><br><br>
-    Token content: <pre>{{token | json}}</pre>
+    Logged in as {{username}} <button ng-click="logout()">Logout</button>
 </div>
 
 <!--load js after DOM loaded-->

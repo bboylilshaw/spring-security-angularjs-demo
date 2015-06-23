@@ -43,8 +43,7 @@ public class UserController {
         if (authentication instanceof UserAuthentication) {
             return authentication.getPrincipal();
         }
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.getPrincipal();
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 
 
