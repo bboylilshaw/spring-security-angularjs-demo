@@ -28,4 +28,4 @@ you need to install below dependencies to run this app.
 1. check out this repo to your local machine
 2. cd to 'src/main/resources/static', run 'bower install' to install angularjs
 3. config application.properties if you have to
-4. run 'mvn spring:boot:run' to start this demo app
+4. run 'mvn spring-boot:run' to start this demo app
