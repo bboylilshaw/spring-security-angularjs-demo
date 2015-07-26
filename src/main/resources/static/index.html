@@ -2,22 +2,13 @@
 <html ng-app="hello">
 <head>
     <title>Stateless Authentication Example</title>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="js/app.js"></script>
 </head>
-<body ng-controller="AuthCtrl" ng-init="init()">
-<div ng-hide="authenticated">
-    Login:<br>
-    <label for="username">Username:</label>
-    <input id="username" type="text" ng-model="username"><br>
-    <label for="password">Password:</label>
-    <input id="password" type="password" ng-model="password"><br>
-    <button ng-click="login()">Login</button>
-</div>
-<div ng-show="authenticated">
-    Logged in as {{username}} <button ng-click="logout()">Logout</button>
-</div>
+<body>
 
-<!--load js after DOM loaded-->
-<script src="bower_components/angular/angular.min.js"></script>
-<script src="js/hello.js"></script>
+<div ui-view></div>
+
 </body>
 </html>

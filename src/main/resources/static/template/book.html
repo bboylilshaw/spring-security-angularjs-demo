@@ -1,0 +1,10 @@
+<h1>Books</h1>
+<div>hello, {{username}}</div>
+
+<ul>
+    <li ng-repeat="book in books">
+        {{book.name}} -- {{book.author}}
+    </li>
+</ul>
+
+<input type="submit" ng-click="logout()" value="Logout"/>

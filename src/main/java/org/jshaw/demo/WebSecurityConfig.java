@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 //allow all static resources
-                .antMatchers("/favicon.ico", "/js/**", "/bower_components/**").permitAll()
+                .antMatchers("/favicon.ico", "/js/**", "/template/**", "/bower_components/**").permitAll()
 
                 //allow anonymous GETs to index, login, signup page
                 .antMatchers(HttpMethod.GET, "/", "index.html", "/api/users/current").permitAll()
