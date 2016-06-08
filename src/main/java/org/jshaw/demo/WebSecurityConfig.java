@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -44,12 +45,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-//    @Bean
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -57,14 +52,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().cacheControl().disable().and()
                 .exceptionHandling().and()
                 .servletApi().and()
-                //.anonymous().and()
+                .anonymous().and()
                 .authorizeRequests()
 
                 //allow all static resources
                 .antMatchers("/favicon.ico", "/js/**", "/template/**", "/bower_components/**").permitAll()
 
                 //allow anonymous GETs to index, login, signup page
-                .antMatchers(HttpMethod.GET, "/", "index.html", "/api/users/current").permitAll()
+                .antMatchers(HttpMethod.GET, "/", "index.html", "/api/user/current").permitAll()
 
                 //allow anonymous POSTs to login, signup
                 .antMatchers(HttpMethod.POST, "/api/login", "/api/signup").permitAll()

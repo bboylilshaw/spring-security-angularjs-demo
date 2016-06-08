@@ -32,6 +32,7 @@ dependencies {
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
+  compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
 //  compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.35'
   compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.6.0'
 
@@ -42,4 +43,8 @@ dependencies {
 
 task wrapper(type: Wrapper) {
   gradleVersion = '2.13'
+}
+
+bootRepackage {
+  excludeDevtools = true
 }

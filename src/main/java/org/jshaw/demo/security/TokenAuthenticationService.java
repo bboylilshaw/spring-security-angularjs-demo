@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Created by Jason on 6/19/15.
- */
 @Service
 public class TokenAuthenticationService {
 
@@ -23,8 +20,8 @@ public class TokenAuthenticationService {
     }
 
     public void addAuthentication(HttpServletResponse response, UserAuthentication authentication) {
-        final CustomUserDetails user = (CustomUserDetails) authentication.getDetails();
-        response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(user));
+        final UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getDetails();
+        response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(userDetails));
     }
 
     public Authentication getAuthentication(HttpServletRequest request) {

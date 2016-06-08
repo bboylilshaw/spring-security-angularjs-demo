@@ -1,4 +1,4 @@
-var app = angular.module('hello', [
+var app = angular.module('demo', [
     'ui.router'
 ]);
 
@@ -57,7 +57,7 @@ app.controller('authCtrl', function ($scope, $http, $state, TokenStorage) {
     $scope.authenticated = false;
 
     $scope.init = function () {
-        $http.get('/api/users/current')
+        $http.get('/api/user/current')
             .success(function (user) {
                 console.log(user);
                 if(user.name !== 'anonymousUser'){

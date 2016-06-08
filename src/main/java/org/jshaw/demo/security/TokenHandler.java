@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by Jason on 6/19/15.
- */
+import java.util.Calendar;
+import java.util.Date;
+
 @Component
 public class TokenHandler {
 

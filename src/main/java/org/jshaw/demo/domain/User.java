@@ -1,11 +1,8 @@
 package org.jshaw.demo.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.jshaw.demo.common.Role;
+import org.jshaw.demo.security.Role;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,13 +10,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- * Created by Jason on 6/15/15.
- */
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor(staticName = "of")
 public class User {
 
     @Id
@@ -40,6 +31,16 @@ public class User {
     @NotNull
     private Role role;
 
+    // Hibernate requires an empty constructor
+    public User() {}
+
+    public User(String username, String password, String email, Role role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
+
     public User(User u) {
         this.id = u.getId();
         this.username = u.getUsername();
@@ -48,4 +49,54 @@ public class User {
         this.role = u.getRole();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "role=" + role +
+                ", id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

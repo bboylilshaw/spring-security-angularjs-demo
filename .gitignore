@@ -5,8 +5,8 @@ build/
 ### IntelliJ
 *.iml
 .idea/
+/classes/
 /out/
-target/
 
 ### Bower
 bower_components/

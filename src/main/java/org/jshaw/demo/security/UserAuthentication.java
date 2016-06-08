@@ -6,9 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-/**
- * Created by Jason on 6/19/15.
- */
 public class UserAuthentication implements Authentication {
 
     private final UserDetails userDetails;

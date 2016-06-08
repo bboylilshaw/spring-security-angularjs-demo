@@ -2,6 +2,8 @@ package org.jshaw.demo.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jshaw.demo.domain.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,10 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by Jason on 6/20/15.
- */
 public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
+
+    private static final Logger logger = LoggerFactory.getLogger(StatelessLoginFilter.class);
 
     private final TokenAuthenticationService tokenAuthenticationService;
     private final UserDetailsService userDetailsService;
@@ -42,8 +43,15 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        // Lookup the complete User object from the database and create an Authentication for it
-        final UserDetails authenticatedUser = userDetailsService.loadUserByUsername(authResult.getName());
+        logger.info("Authenticate user successfully");
+        final UserDetails authenticatedUser;
+        if (authResult.getPrincipal() instanceof User) {
+            authenticatedUser = new UserDetailsImpl((User) authResult.getPrincipal());
+        } else {
+            // Lookup the complete User object from the database and create an Authentication for it
+            authenticatedUser = userDetailsService.loadUserByUsername(authResult.getName());
+        }
+
         final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
 
         // Add the custom token as HTTP header to the response
