@@ -1,0 +1,45 @@
+buildscript {
+  repositories {
+    jcenter()
+    maven { url "http://repo.spring.io/snapshot" }
+    maven { url "http://repo.spring.io/milestone" }
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.5.RELEASE")
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+group = 'org.jshaw'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+repositories {
+  jcenter()
+  maven { url "http://repo.spring.io/snapshot" }
+  maven { url "http://repo.spring.io/milestone" }
+}
+
+
+dependencies {
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
+//  compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.35'
+  compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.6.0'
+
+  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+
+  runtime group: 'com.h2database', name: 'h2'
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.13'
+}
