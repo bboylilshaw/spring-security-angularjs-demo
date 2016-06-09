@@ -2,5 +2,9 @@ package org.jshaw.demo.security;
 
 public enum Role {
     ADMIN,
-    USER
+    USER;
+
+    public String get() {
+        return "ROLE_" + this.toString().toUpperCase();
+    }
 }

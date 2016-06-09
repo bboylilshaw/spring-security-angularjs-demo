@@ -13,6 +13,7 @@ you need to install below dependencies to run this demo app.
 
 * JDK 1.8
 * Gradle 2.13
+* MySQL 5.7.x
 * Node.js (actually we only use npm to install dependencies)
 * Bower (after installing Node.js, use npm to install bower)
 

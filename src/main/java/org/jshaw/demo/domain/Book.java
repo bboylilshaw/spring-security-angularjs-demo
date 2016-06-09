@@ -3,12 +3,10 @@ package org.jshaw.demo.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-/**
- * Created by Jason on 6/12/15.
- */
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "t_book")
 public class Book {
 
     @Id

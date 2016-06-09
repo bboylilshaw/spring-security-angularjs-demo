@@ -7,10 +7,12 @@ import org.jshaw.demo.security.Role;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
+@Table(name = "t_user")
 public class User {
 
     @Id
