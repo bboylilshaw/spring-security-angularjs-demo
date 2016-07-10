@@ -19,8 +19,8 @@ public class TokenAuthenticationService {
         this.tokenHandler = tokenHandler;
     }
 
-    public void addAuthentication(HttpServletResponse response, UserAuthentication authentication) {
-        final UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getDetails();
+    public void addAuthentication(HttpServletResponse response, Authentication authentication) {
+        final UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(userDetails));
     }
 

@@ -18,10 +18,10 @@ public class UserDetailsImpl extends User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = new ArrayList<>();
-        if (super.getRole().equals(Role.USER)) {
-            authorityList = AuthorityUtils.createAuthorityList(Role.USER.get());
-        } else if (super.getRole().equals(Role.ADMIN)) {
-            authorityList = AuthorityUtils.createAuthorityList(Role.ADMIN.get(), Role.USER.get());
+        if (super.getRole().equals(Role.ROLE_USER)) {
+            authorityList = AuthorityUtils.createAuthorityList(Role.ROLE_USER.toString());
+        } else if (super.getRole().equals(Role.ROLE_ADMIN)) {
+            authorityList = AuthorityUtils.createAuthorityList(Role.ROLE_ADMIN.toString(), Role.ROLE_USER.toString());
         }
         return authorityList;
     }

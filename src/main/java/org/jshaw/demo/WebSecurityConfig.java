@@ -1,7 +1,7 @@
 package org.jshaw.demo;
 
-import org.jshaw.demo.security.StatelessAuthenticationFilter;
-import org.jshaw.demo.security.StatelessLoginFilter;
+import org.jshaw.demo.security.TokenAuthenticationFilter;
+import org.jshaw.demo.security.TokenAuthenticationProcessingFilter;
 import org.jshaw.demo.security.TokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,10 +28,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private TokenAuthenticationService tokenAuthenticationService;
-
-//    public WebSecurityConfig() {
-//        super(true);
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -68,9 +64,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 // custom JSON based authentication by POST of {"username":"<name>","password":"<password>"} which sets the token header upon authentication
-                .addFilterBefore(new StatelessLoginFilter("/api/login", tokenAuthenticationService, userDetailsService, authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new TokenAuthenticationProcessingFilter("/api/login", "POST", tokenAuthenticationService, authenticationManager()), UsernamePasswordAuthenticationFilter.class)
 
                 // custom Token based authentication based on the header previously given to the client
-                .addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new TokenAuthenticationFilter(tokenAuthenticationService), UsernamePasswordAuthenticationFilter.class);
     }
 }
