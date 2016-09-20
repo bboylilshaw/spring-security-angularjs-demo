@@ -1,5 +1,8 @@
 package org.jshaw.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.jshaw.demo.security.Role;
@@ -33,8 +36,9 @@ public class User {
     @NotNull
     private Role role;
 
-    // Hibernate requires an empty constructor
-    public User() {}
+    public User() {
+        // JPA requires an empty constructor
+    }
 
     public User(String username, String password, String email, Role role) {
         this.username = username;
@@ -67,10 +71,12 @@ public class User {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
@@ -94,11 +100,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "role=" + role +
-                ", id=" + id +
+                "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", role=" + role +
                 '}';
     }
 }

@@ -17,7 +17,7 @@ app.factory('TokenStorage', function() {
     };
 });
 
-app.factory('TokenAuthInterceptor', function($q, TokenStorage) {
+app.factory('TokenAuthInterceptor', function($q, $state, TokenStorage) {
     return {
         request: function(config) {
             var authToken = TokenStorage.retrieve();
@@ -29,6 +29,7 @@ app.factory('TokenAuthInterceptor', function($q, TokenStorage) {
         responseError: function(error) {
             if (error.status === 401 || error.status === 403) {
                 TokenStorage.clear();
+                $state.go('login');
             }
             return $q.reject(error);
         }

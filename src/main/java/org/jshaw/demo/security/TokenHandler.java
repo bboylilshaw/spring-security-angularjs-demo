@@ -16,7 +16,8 @@ public class TokenHandler {
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    public TokenHandler(@Value("${token.secret}") String secret, UserDetailsService userDetailsService) {
+    public TokenHandler(@Value("${token.secret}") String secret,
+                        UserDetailsService userDetailsService) {
         this.secret = secret;
         this.userDetailsService = userDetailsService;
     }

@@ -23,21 +23,20 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
-    private TokenAuthenticationService tokenAuthenticationService;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenAuthenticationService tokenAuthenticationService) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.tokenAuthenticationService = tokenAuthenticationService;
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public User signUp(User user, HttpServletResponse response) throws UserAlreadyExistException {
-        Assert.notNull(user);
+    public User add(User user) throws UserAlreadyExistException {
+        Assert.notNull(user, "User object cannot be null");
+        Assert.isNull(user.getId(), "User id filed ");
 
         // check if username exists
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
@@ -49,15 +48,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(rawPassword));
         user.setRole(Role.ROLE_USER);
 
-        logger.info("save user:" + user.toString());
-        User u = userRepository.save(user);
-
-        // load user and set auth so that user does not to login again after signup
-        UserDetailsImpl userDetails = new UserDetailsImpl(u);
-        UserAuthentication userAuthentication = new UserAuthentication(userDetails);
-        userAuthentication.setAuthenticated(true);
-        tokenAuthenticationService.addAuthentication(response, userAuthentication);
-
-        return u;
+        logger.info("Saving user: {}", user);
+        return userRepository.save(user);
     }
 }

@@ -15,8 +15,9 @@ public class Book {
     private String name;
     private String author;
 
-    // Hibernate requires an empty constructor
-    public Book() {}
+    public Book() {
+        // JPA requires an empty constructor
+    }
 
     public Book(String name, String author) {
         this.name = name;
@@ -45,5 +46,14 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                '}';
     }
 }
