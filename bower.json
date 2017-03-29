@@ -1,12 +1,11 @@
 {
-  "name": "demo",
-  "version": "0.0.0",
+  "name": "spring-security-angularjs-demo",
   "homepage": "https://github.com/bboylilshaw/spring-security-angularjs-demo",
   "authors": [
-    "Jason Xiao <jason.xiao@emc.com>"
+    "Jason Xiao <xiaoyao8823@gmail.com>"
   ],
-  "description": "demo",
-  "main": "index.html",
+  "description": "",
+  "main": "",
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -16,7 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "^1.5.8",
-    "angular-ui-router": "1.0.0-beta.2"
+    "angular": "^1.6.3",
+    "angular-ui-router": "ui-router#^0.4.2"
   }
 }

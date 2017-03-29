@@ -10,6 +10,7 @@ build/
 
 ### Bower
 bower_components/
+src/main/resources/static/lib/
 
 ### OS
 .DS_Store
