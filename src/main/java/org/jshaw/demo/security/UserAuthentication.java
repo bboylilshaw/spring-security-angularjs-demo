@@ -9,7 +9,7 @@ import java.util.Collection;
 public class UserAuthentication implements Authentication {
 
     private final UserDetails userDetails;
-    private boolean authenticated = false;
+    private boolean isAuthenticated = false;
 
     public UserAuthentication(UserDetails userDetails) {
         super();
@@ -18,32 +18,32 @@ public class UserAuthentication implements Authentication {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return userDetails.getAuthorities();
+        return this.userDetails.getAuthorities();
     }
 
     @Override
     public Object getCredentials() {
-        return userDetails.getPassword();
+        return this.userDetails.getPassword();
     }
 
     @Override
     public Object getDetails() {
-        return userDetails;
+        return this.userDetails;
     }
 
     @Override
     public Object getPrincipal() {
-        return userDetails;
+        return this.userDetails;
     }
 
     @Override
     public boolean isAuthenticated() {
-        return authenticated;
+        return this.isAuthenticated;
     }
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        this.authenticated = isAuthenticated;
+        this.isAuthenticated = isAuthenticated;
     }
 
     @Override

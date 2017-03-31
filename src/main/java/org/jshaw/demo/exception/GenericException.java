@@ -1,7 +1,7 @@
 package org.jshaw.demo.exception;
 
 /**
- * Created by Jason on 7/7/16.
+ * @author Jason Xiao
  */
 public class GenericException extends Exception {
 

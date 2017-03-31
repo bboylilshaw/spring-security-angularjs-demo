@@ -1,6 +1,6 @@
 buildscript {
   ext {
-    springBootVersion = '1.4.0.RELEASE'
+    springBootVersion = '1.5.2.RELEASE'
   }
   repositories {
     mavenCentral()
@@ -12,10 +12,10 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 
-group = 'org.jshaw'
-version = '1.0-SNAPSHOT'
+group = 'io.jxiao'
+version = '1.0.0'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -25,19 +25,23 @@ repositories {
 }
 
 dependencies {
+  compile 'org.springframework.boot:spring-boot-starter-actuator'
   compile 'org.springframework.boot:spring-boot-starter-web'
   compile 'org.springframework.boot:spring-boot-starter-security'
   compile 'org.springframework.boot:spring-boot-starter-data-jpa'
   compile 'org.springframework.boot:spring-boot-starter-data-rest'
-  compile 'org.springframework.boot:spring-boot-devtools'
-  compile 'mysql:mysql-connector-java'
   compile 'io.jsonwebtoken:jjwt:0.6.0'
+
+  compileOnly 'org.projectlombok:lombok'
+
+  runtime 'org.springframework.boot:spring-boot-devtools'
+  runtime 'com.h2database:h2'
 
   testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '3.0'
+  gradleVersion = '3.4.1'
 }
 
 bootRepackage {

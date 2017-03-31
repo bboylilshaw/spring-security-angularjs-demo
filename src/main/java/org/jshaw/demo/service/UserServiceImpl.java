@@ -4,9 +4,6 @@ import org.jshaw.demo.domain.User;
 import org.jshaw.demo.exception.UserAlreadyExistException;
 import org.jshaw.demo.repository.UserRepository;
 import org.jshaw.demo.security.Role;
-import org.jshaw.demo.security.TokenAuthenticationService;
-import org.jshaw.demo.security.UserAuthentication;
-import org.jshaw.demo.security.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
-import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,7 +31,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public User add(User user) throws UserAlreadyExistException {
         Assert.notNull(user, "User object cannot be null");
-        Assert.isNull(user.getId(), "User id filed ");
+        Assert.isNull(user.getId(), "User id filed must be null");
 
         // check if username exists
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {

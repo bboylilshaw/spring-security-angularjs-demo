@@ -11,6 +11,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * Used for auth user for every request
+ *
+ * @author Jason Xiao
+ */
 public class TokenAuthenticationFilter extends GenericFilterBean {
 
     private final TokenAuthenticationService authenticationService;
@@ -22,8 +27,10 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-        Authentication authentication = authenticationService.getAuthentication(httpRequest);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (httpRequest.getRequestURI().toLowerCase().startsWith("/api")) {
+            Authentication authentication = authenticationService.getAuthentication(httpRequest);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
         filterChain.doFilter(servletRequest, servletResponse);
     }
 }

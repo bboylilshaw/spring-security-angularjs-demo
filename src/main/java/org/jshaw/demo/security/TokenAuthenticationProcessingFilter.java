@@ -9,17 +9,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Used for processing login request
+ *
+ * @author Jason Xiao
+ */
 public class TokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationProcessingFilter.class);
@@ -27,10 +30,10 @@ public class TokenAuthenticationProcessingFilter extends AbstractAuthenticationP
     private final TokenAuthenticationService tokenAuthenticationService;
     private final ObjectMapper objectMapper;
 
-    public TokenAuthenticationProcessingFilter(String urlMapping, String httpMethod,
+    public TokenAuthenticationProcessingFilter(String urlMapping,
                                                TokenAuthenticationService tokenAuthenticationService,
                                                AuthenticationManager authManager) {
-        super(new AntPathRequestMatcher(urlMapping, httpMethod, false));
+        super(new AntPathRequestMatcher(urlMapping, "POST", false));
         this.tokenAuthenticationService = tokenAuthenticationService;
         this.objectMapper = new ObjectMapper();
         setAuthenticationManager(authManager);
@@ -45,15 +48,18 @@ public class TokenAuthenticationProcessingFilter extends AbstractAuthenticationP
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                            FilterChain chain, Authentication authentication) throws IOException, ServletException {
+
         logger.info("Authenticate user successfully");
-        final UserDetails authenticatedUser = new UserDetailsImpl((User) authResult.getPrincipal());
-        final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        UserAuthentication userAuthentication = new UserAuthentication(userDetails);
+        userAuthentication.setAuthenticated(true);
 
-        // Add the custom token as HTTP header to the response
-        tokenAuthenticationService.addAuthentication(response, userAuthentication);
+        // Add the token to the HTTP response header
+        tokenAuthenticationService.addTokenToResponse(userAuthentication, response);
 
-        // Add the authentication to the Security context
+        // Add the userAuthentication to the Security context
         SecurityContextHolder.getContext().setAuthentication(userAuthentication);
     }
 }

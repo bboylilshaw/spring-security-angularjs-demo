@@ -1,31 +1,34 @@
 package org.jshaw.demo.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Service
+/**
+ * Used for add token to response header, and get user info from request header
+ *
+ * @author Jason Xiao
+ */
 public class TokenAuthenticationService {
 
-    private static final String AUTH_HEADER_NAME = "X-AUTH-TOKEN";
+    private static final String AUTH_TOKEN_HEADER = "X-Auth-Token";
+
     private final TokenHandler tokenHandler;
 
-    @Autowired
     public TokenAuthenticationService(TokenHandler tokenHandler) {
         this.tokenHandler = tokenHandler;
     }
 
-    public void addAuthentication(HttpServletResponse response, Authentication authentication) {
-        final UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(userDetails));
+    public void addTokenToResponse(UserAuthentication authentication, HttpServletResponse response) {
+        final UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getDetails();
+        String token = tokenHandler.createTokenForUser(userDetails);
+        response.addHeader(AUTH_TOKEN_HEADER, token);
     }
 
     public Authentication getAuthentication(HttpServletRequest request) {
-        final String token = request.getHeader(AUTH_HEADER_NAME);
+        final String token = request.getHeader(AUTH_TOKEN_HEADER);
         if (token != null) {
             final UserDetails userDetails = tokenHandler.parseUserFromToken(token);
             if (userDetails != null) {
