@@ -22,7 +22,7 @@ app.factory('authInterceptor', function ($rootScope, $q, TokenStore) {
     request: function (config) {
       config.headers = config.headers || {};
       if (TokenStore.get()) {
-        config.headers['X-AUTH-TOKEN'] = TokenStore.get();
+        config.headers['X-Auth-Token'] = TokenStore.get();
       }
       return config;
     },
@@ -35,10 +35,17 @@ app.factory('authInterceptor', function ($rootScope, $q, TokenStore) {
   };
 });
 
-app.controller('HomeController', function ($rootScope, $scope, $state, TokenStore) {
+app.controller('HomeController', function ($rootScope, $scope, $state, $http, TokenStore) {
   if ($rootScope.currentUser === undefined) {
-    console.log('not authenticated');
-    $state.go('login');
+    if (TokenStore.get()) {
+      $http.get("/api/user/current").then(function (response) {
+        console.log('get current user...');
+        $rootScope.currentUser = response.data;
+      });
+    } else {
+      console.log('not authenticated');
+      $state.go('login');
+    }
   }
 
   $scope.logout = function () {
@@ -46,6 +53,10 @@ app.controller('HomeController', function ($rootScope, $scope, $state, TokenStor
     delete $rootScope.currentUser;
     $state.go('login')
   };
+
+  $http.get('/api/books').then(function (response) {
+    $scope.books = response.data._embedded.books;
+  });
 
 });
 
@@ -75,89 +86,3 @@ app.controller('LoginController', function ($rootScope, $scope, $http, $state, T
 
 });
 
-
-//
-// app.factory('TokenAuthInterceptor', function($q, $state, TokenStorage) {
-//     return {
-//         request: function(config) {
-//             var authToken = TokenStorage.retrieve();
-//             if (authToken) {
-//                 config.headers['X-AUTH-TOKEN'] = authToken;
-//             }
-//             return config;
-//         },
-//         responseError: function(error) {
-//             if (error.status === 401 || error.status === 403) {
-//                 TokenStorage.clear();
-//                 $state.go('login');
-//             }
-//             return $q.reject(error);
-//         }
-//     };
-// });
-//
-// app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
-//     $httpProvider.interceptors.push('TokenAuthInterceptor');
-//     // For any unmatched url, redirect to /
-//     $urlRouterProvider.otherwise('/');
-//     // Now set up the states
-//     $stateProvider
-//         .state('login', {
-//             url: '/',
-//             templateUrl: 'template/login.html',
-//             controller: 'authCtrl'
-//         })
-//         .state('books', {
-//             url: "/books",
-//             templateUrl: "template/book.html",
-//             controller: 'bookCtrl'
-//         });
-// });
-//
-// app.controller('authCtrl', function ($scope, $http, $state, TokenStorage) {
-//     $scope.authenticated = false;
-//
-//     $scope.init = function () {
-//         $http.get('/api/user/current')
-//             .success(function (user) {
-//                 console.log(user);
-//                 if(user.name !== 'anonymousUser'){
-//                     $scope.authenticated = true;
-//                     $state.go('books');
-//                 }
-//             });
-//     };
-//
-//     $scope.login = function () {
-//         var user = {
-//             username: $scope.username,
-//             password: $scope.password
-//         };
-//
-//         $http.post('/api/login', user)
-//             .success(function (data, status, headers) {
-//                 if (status === 200) {
-//                     $scope.authenticated = true;
-//                     TokenStorage.store(headers('X-AUTH-TOKEN'));
-//                     $state.go('books');
-//                 }
-//             })
-//             .error(function (data) {
-//                 console.log(data);
-//             });
-//     };
-// });
-//
-// app.controller('bookCtrl', function ($scope, $http, $state, TokenStorage) {
-//     $scope.username = JSON.parse(atob(TokenStorage.retrieve().split('.')[1])).sub;
-//     $http.get('/api/books')
-//         .success(function (data) {
-//             console.log(data);
-//             $scope.books = data._embedded.books;
-//         });
-//     $scope.logout = function () {
-//         TokenStorage.clear();
-//         $scope.authenticated = false;
-//         $state.go('login');
-//     };
-// });
