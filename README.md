@@ -1,5 +1,7 @@
 ## Spring Security AngularJS demo application
 
+[![Build Status](https://travis-ci.org/bboylilshaw/spring-security-angularjs-demo.svg?branch=master)](https://travis-ci.org/bboylilshaw/spring-security-angularjs-demo)
+
 This demo shows you how to use Spring Boot(1.5.2.RELEASE), Spring Security and JWT to protect your backend RESTful web services.
 
 

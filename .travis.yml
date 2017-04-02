@@ -1,4 +1,9 @@
 language: java
 jdk:
   - oraclejdk8
+node_js:
+  - "7"
+before_script:
+  - npm install -g bower
+  - bower install
 script: ./gradlew clean build
